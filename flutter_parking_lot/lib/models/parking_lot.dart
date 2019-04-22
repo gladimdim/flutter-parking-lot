@@ -37,7 +37,6 @@ class Parking {
     var clientIndex = payedClients.indexWhere((tuple) => tuple.item1 == client);
     if (clientIndex < 0) {
       throw NotPayed(
-          msg:
               "Client ${client.licenseNumber} did not pay ${calculatePayment(client)}");
     }
 
@@ -50,7 +49,6 @@ class Parking {
       _letClientOut(tuple.item1);
     } else {
       throw NotPayed(
-          msg:
           "Client ${client.licenseNumber} need to pay more: ${estimate - payed}"
       );
     }
@@ -98,7 +96,10 @@ class ParkingLotFull implements Exception {
 }
 
 class NotPayed implements Exception {
-  String msg;
+  final String msg;
 
-  NotPayed({this.msg});
+  String toString() {
+    return msg;
+  }
+  NotPayed(this.msg);
 }

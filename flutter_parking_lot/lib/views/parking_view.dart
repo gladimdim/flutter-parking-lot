@@ -41,9 +41,21 @@ class _ParkingLotState extends State<ParkingLot> {
     });
   }
 
+  void onClientLeave(client) {
+    try {
+      lot.clockOutClient(client);
+    } catch (e) {
+      final snackbar = SnackBar(content: Text(e.toString()));
+      Scaffold.of(context).showSnackBar(snackbar);
+      setState(() {
+
+      });
+    }
+  }
+
   GridView _buildParkingView() {
     return GridView.count(
-        crossAxisCount: 4,
+        crossAxisCount: 2,
         children: List.generate(lot.capacity, (index) {
           if (lot.clients.length > index) {
             return SizedBox(
@@ -51,7 +63,7 @@ class _ParkingLotState extends State<ParkingLot> {
                 client: lot.clients[index],
                 estimator: lot.calculatePayment,
                 payForClient: (client) => lot.acceptPayment(client, 10),
-                onClientExit: (client) => lot.clockOutClient(client),
+                onClientExit: onClientLeave,
               ),
             );
           } else {
